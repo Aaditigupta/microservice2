@@ -29,10 +29,6 @@ node {
    stage('Maven-Package') {
    sh label: '', script: 'mvn package'
   }
-   stage('Archive-Artifacts') {
-   archiveArtifacts 'target/*.war'
-  }
-   stage('Archive-Artifacts') {
 stage('Jfrog Artifacory Upload') {
         def server= Artifactory.server 'Artifactory'
                     def uploadSpec= """{
@@ -43,7 +39,6 @@ stage('Jfrog Artifacory Upload') {
         server.upload(uploadSpec)
         }
         
-    
  stage('Docker-Stage-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
   } 
@@ -65,4 +60,3 @@ def notify(status){
 	<p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
 		)
 	}
-
